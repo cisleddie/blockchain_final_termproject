@@ -1,5 +1,6 @@
 # main.py — ContribChain FastAPI 오라클 서버
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
