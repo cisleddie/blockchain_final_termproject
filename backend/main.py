@@ -43,9 +43,9 @@ def send_tx(fn):
     """컨트랙트 함수를 받아서 서명 후 Sepolia에 전송"""
     tx = fn.build_transaction({
         "from":     ADMIN_ADDRESS,
-        "nonce":    w3.eth.get_transaction_count(ADMIN_ADDRESS),
+        "nonce":    w3.eth.get_transaction_count(ADMIN_ADDRESS, "pending"),
         "gas":      300_000,
-        "gasPrice": w3.eth.gas_price,
+        "gasPrice": w3.eth.gas_price * 2,
     })
     signed   = w3.eth.account.sign_transaction(tx, ADMIN_PRIVATE_KEY)
     tx_hash  = w3.eth.send_raw_transaction(signed.raw_transaction)

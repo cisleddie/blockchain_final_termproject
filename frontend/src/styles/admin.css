@@ -1,0 +1,4 @@
+/* styles/admin.css */
+.contrib-table tr:hover td {
+  background: #f8fafc;
+}
