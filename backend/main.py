@@ -1,6 +1,6 @@
 # main.py — ContribChain FastAPI 오라클 서버
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -8,7 +8,6 @@ from web3 import Web3
 from dotenv import load_dotenv
 from abis import CONTRIB_REGISTRY_ABI, PHY_TOKEN_ABI
 import os
-import json
 
 load_dotenv()
 
@@ -22,8 +21,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Web3 연결 ────────────────────────────────────────────
-w3 = Web3(Web3.HTTPProvider(os.getenv("SEPOLIA_RPC_URL")))
+# ── Web3 연결 (학교 네트워크 SSL 인증서 우회) ────────────
+w3 = Web3(Web3.HTTPProvider(
+    os.getenv("SEPOLIA_RPC_URL"),
+    request_kwargs={"verify": False}
+))
+
 
 ADMIN_ADDRESS     = os.getenv("ADMIN_WALLET_ADDRESS")
 ADMIN_PRIVATE_KEY = os.getenv("ADMIN_PRIVATE_KEY")
