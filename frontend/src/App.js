@@ -121,6 +121,12 @@ function App() {
         ts_name:    "TS 38.211",
       });
 
+      if (!res.data.success) {
+        setMessage(`승인 트랜잭션 실패 (status=0). Etherscan 확인: ${res.data.tx_hash}`);
+        setTxHash(res.data.tx_hash);
+        return;
+      }
+
       setMessage(`승인 완료! 보상: ${res.data.reward} PHY`);
       setTxHash(res.data.tx_hash);
 
